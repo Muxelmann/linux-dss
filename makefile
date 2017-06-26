@@ -56,8 +56,6 @@ update_dss: ${OPENDSS_DIR}
 	svn update ${OPENDSS_DIR}
 
 ${OPENDSS_DIR}:
-	sudo apt-get install build-essential lazarus subversion
-	sudo ln -sfv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so
-	sudo ln -sfv /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so
+
 	mkdir ${OPENDSS_DIR}
 	svn checkout https://svn.code.sf.net/p/electricdss/code/trunk ${OPENDSS_DIR}
