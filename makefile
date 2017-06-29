@@ -65,8 +65,8 @@ arm: ${TMP} ${LIB} update_dss
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Executive \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Parser \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/DirectDLL/ \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/units/arm-linux/ \
-	-FE${OPENDSS_DIR}/Source/LazDSS/units/arm-linux/ \
+	-Fu${TMP} \
+	-FE${LIB} \
 	-o${OUT} \
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
