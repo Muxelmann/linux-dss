@@ -39,7 +39,7 @@ all: ${TMP} ${LIB} update_dss
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
-arm:
+arm: ${TMP} ${LIB} update_dss
 	$(CC) \
 	-Parm  $(MACROS) \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
