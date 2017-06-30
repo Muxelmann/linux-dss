@@ -42,6 +42,8 @@ This will save the final `libopendssdirect.so` in the `lib` directory, and a ful
 make OPENDSS_DIR=some_other_dir
 ```
 
+Also, making the project will download and compile a standalone KLUSolve, to assure it is compiled for the correct CPU architecture.
+
 ## Usage on Raspberry Pi
 
 ### Setup
