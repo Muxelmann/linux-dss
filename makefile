@@ -11,7 +11,7 @@ KLUSOLVE = KLUSolve
 KLUSOLVE_LIB = ${KLUSOLVE}/Lib
 KLUSOLVE_TEST = ${KLUSOLVE}/Test
 
-all: ${TMP} ${LIB} update_dss klusolve
+all: ${TMP} ${LIB} klusolve update_dss
 	$(CC) \
 	-Px86_64 -Cg $(MACROS) \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
@@ -43,7 +43,7 @@ all: ${TMP} ${LIB} update_dss klusolve
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
-arm: ${TMP} ${LIB} update_dss klusolve
+arm: ${TMP} ${LIB} klusolve update_dss
 	$(CC) \
 	-Parm  $(MACROS) \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
