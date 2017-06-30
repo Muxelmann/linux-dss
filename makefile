@@ -76,11 +76,11 @@ arm: ${TMP} ${LIB} klusolve update_dss
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
 klusolve:
-	mkdir ${KLUSOLVE}
+	mkdir -p ${KLUSOLVE}
 	svn checkout https://svn.code.sf.net/p/klusolve/code/ ${KLUSOLVE}
 	mkdir -p ${KLUSOLVE_LIB}
 	mkdir -p ${KLUSOLVE_TEST}
-	make -C ${KLUSOLVE}
+	make -C ${KLUSOLVE} all
 
 light: update_dss all
 	rm -fr ${TMP}
