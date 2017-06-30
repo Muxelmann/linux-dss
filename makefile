@@ -11,7 +11,7 @@ KLUSOLVE = KLUSolve
 KLUSOLVE_LIB = ${KLUSOLVE}/Lib
 KLUSOLVE_TEST = ${KLUSOLVE}/Test
 
-all: ${TMP} ${LIB} update_dss
+all: ${TMP} ${LIB} update_dss klusolve
 	$(CC) \
 	-Px86_64 -Cg $(MACROS) \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
@@ -26,7 +26,7 @@ all: ${TMP} ${LIB} update_dss
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Executive \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Parser \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/units/x86_64-linux \
-	-Fl${OPENDSS_DIR}/Source/LazDSS/lib \
+	-Fl${KLUSOLVE_LIB} \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Shared \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Common \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/PDElements \
