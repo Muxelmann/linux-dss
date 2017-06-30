@@ -99,6 +99,22 @@ update_dss: ${OPENDSS_DIR}
 	svn update ${OPENDSS_DIR}
 
 ${OPENDSS_DIR}:
-
-	mkdir ${OPENDSS_DIR}
+	mkdir -p ${OPENDSS_DIR}
 	svn checkout https://svn.code.sf.net/p/electricdss/code/trunk ${OPENDSS_DIR}
+
+setup_Ubuntu:
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt-get install build-essential lazarus subversion
+	sudo ln -sfv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so
+	sudo ln -sfv /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so
+
+setup_RPi:
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt-get install build-essential subversion
+	sudo ln -sfv /usr/lib/arm-linux-gnueabihf/libstdc++.so.6 /usr/lib/arm-linux-gnueabihf/libstdc++.so
+	sudo ln -sfv /lib/arm-linux-gnueabihf/libgcc_s.so.1 /lib/arm-linux-gnueabihf/libgcc_s.so
+	wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.2/arm-linux/fpc-3.0.2.arm-linux-eabihf-raspberry.tar
+	tar -xvf fpc-3.0.2.arm-linux-eabihf-raspberry.tar
+	sudo ./fpc-3.0.2.arm-linux-eabihf-raspberry/install.sh

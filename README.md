@@ -6,11 +6,17 @@ As explained in the background section, the original OpenDSS package ships with 
 
 This repository provides a procedure to acquire and compile a Linux (here Ubuntu 16.04) compatible shared object library, which is used in a sample `PyDSS` module.
 
-## Usage on Ubuntu Linux
-
-If you already have lazarus and Free Pascal installed, you may skip the setup.
+## Usage on Ubuntu Linux - *simplest*
 
 ### Setup
+
+Run the following or follow the steps below manually:
+
+```
+make setup_Ubuntu
+```
+
+<hr>
 
 Start by installing all prerequisites, including the standard compiler and lazarus (with Free Pascal). Also two additional symbolic links need to be added for the compilation to function correctly.
 
@@ -38,11 +44,17 @@ make OPENDSS_DIR=some_other_dir
 
 ## Usage on Raspberry Pi
 
-Still **to do**, but I added a new make rule to build for ARM:
-
 ### Setup
 
-Start by installing all prerequisites.
+Run the following or follow the steps below manually:
+
+```
+make setup_RPi
+```
+
+<hr>
+
+Start by installing all prerequisites, including the RPi compilers, and add two symbolic links needed for the compilation to function correctly.
 
 ```
 sudo apt-get update
@@ -58,7 +70,7 @@ Install `fpc` (version 3.0.2) on Raspberry:
 wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.2/arm-linux/fpc-3.0.2.arm-linux-eabihf-raspberry.tar
 tar -xvf fpc-3.0.2.arm-linux-eabihf-raspberry.tar
 cd fpc-3.0.2.arm-linux-eabihf-raspberry
-./install.sh
+sudo ./install.sh
 cd ..
 ```
 
@@ -77,6 +89,25 @@ This compiler also downloads and compile KLUSolve since it is not provided for A
 ### BUG
 
 I currently get a Stack-Overflow error when importing the `libopendssdirect.so` using `ctypes` in Python (2/3).
+
+## Cross-Compile on Ubuntu Linux for Raspberry Pi
+
+### Setup
+
+First install the correct cross-compiler:
+
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install build-essential subversion
+```
+
+Acquire `fpc` (version 3.0.2):
+
+```
+wget https://sourceforge.net/projects/freepascal/files/Linux/3.0.2/fpc-3.0.2.x86_64-linux.tar
+```
+
 
 ## Background
 
