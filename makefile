@@ -2,10 +2,14 @@ OPENDSS_DIR		?= electricdss
 
 CC		= /usr/bin/fpc
 MACROS	= -MDelphi -Scghi -Ct -O2  -k-lc -k-lm -k-lgcc_s -k-lstdc++ -l -vewnhibq
-CFLAGS	= -dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL
+CFLAGS	= -dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL -dCPU64
 OUT		= libopendssdirect.so
-TMP		= ./tmp/
-LIB		= ./lib/
+TMP		= ./tmp
+LIB		= ./lib
+
+KLUSOLVE = KLUSolve
+KLUSOLVE_LIB = ${KLUSOLVE}/Lib
+KLUSOLVE_TEST = ${KLUSOLVE}/Test
 
 all: ${TMP} ${LIB} update_dss
 	$(CC) \
@@ -39,7 +43,7 @@ all: ${TMP} ${LIB} update_dss
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
-arm: ${TMP} ${LIB} update_dss
+arm: ${TMP} ${LIB} update_dss klusolve
 	$(CC) \
 	-Parm  $(MACROS) \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
@@ -54,7 +58,7 @@ arm: ${TMP} ${LIB} update_dss
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Executive \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Parser \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/units/arm-linux \
-	-Fl${OPENDSS_DIR}/Source/LazDSS/lib \
+	-Fl${KLUSOLVE_LIB} \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Shared \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Common \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/PDElements \
@@ -70,6 +74,13 @@ arm: ${TMP} ${LIB} update_dss
 	-o${OUT} \
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
+
+klusolve:
+	mkdir ${KLUSOLVE}
+	svn checkout https://svn.code.sf.net/p/klusolve/code/ ${KLUSOLVE}
+	mkdir -p ${KLUSOLVE_LIB}
+	mkdir -p ${KLUSOLVE_TEST}
+	make -C ${KLUSOLVE}
 
 light: update_dss all
 	rm -fr ${TMP}

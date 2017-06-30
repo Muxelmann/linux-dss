@@ -40,11 +40,43 @@ make OPENDSS_DIR=some_other_dir
 
 Still **to do**, but I added a new make rule to build for ARM:
 
-``
-make arm
-``
+### Setup
 
-The compiler and flags are set up correctly, but the procedure to install the cross-compiler toolchain are missing.
+Start by installing all prerequisites.
+
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install build-essential subversion
+sudo ln -sfv /usr/lib/arm-linux-gnueabihf/libstdc++.so.6 /usr/lib/arm-linux-gnueabihf/libstdc++.so
+sudo ln -sfv /lib/arm-linux-gnueabihf/libgcc_s.so.1 /lib/arm-linux-gnueabihf/libgcc_s.so
+```
+
+Install `fpc` (version 3.0.2) on Raspberry:
+
+```
+wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.2/arm-linux/fpc-3.0.2.arm-linux-eabihf-raspberry.tar
+tar -xvf fpc-3.0.2.arm-linux-eabihf-raspberry.tar
+cd fpc-3.0.2.arm-linux-eabihf-raspberry
+./install.sh
+cd ..
+```
+
+Make sure you install it into `/usr` **not** `/usr/local`.
+
+### Compiling 
+
+Next build `libopendssdirect.so` for ARM:
+
+```
+make arm
+```
+
+This compiler also downloads and compile KLUSolve since it is not provided for ARM.
+
+### BUG
+
+I currently get a Stack-Overflow error when importing the `libopendssdirect.so` using `ctypes` in Python (2/3).
 
 ## Background
 
