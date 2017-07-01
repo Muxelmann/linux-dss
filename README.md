@@ -66,19 +66,19 @@ sudo ln -sfv /usr/lib/arm-linux-gnueabihf/libstdc++.so.6 /usr/lib/arm-linux-gnue
 sudo ln -sfv /lib/arm-linux-gnueabihf/libgcc_s.so.1 /lib/arm-linux-gnueabihf/libgcc_s.so
 ```
 
-Install `fpc` (version 3.0.2) on Raspberry:
+Install `fpc` (version 3.0.0) on Raspberry:
 
 ```
-wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.2/arm-linux/fpc-3.0.2.arm-linux-eabihf-raspberry.tar
-tar -xvf fpc-3.0.2.arm-linux-eabihf-raspberry.tar
-cd fpc-3.0.2.arm-linux-eabihf-raspberry
+wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.0/arm-linux/fpc-3.0.0.arm-linux-raspberry1wq.tar
+tar -xvf fpc-3.0.0.arm-linux-raspberry1wq.tar
+cd fpc-3.0.0.arm-linux
 sudo ./install.sh
 cd ..
 ```
 
 Make sure you install it into `/usr` **not** `/usr/local`.
 
-### Compiling 
+### Compiling
 
 Next build `libopendssdirect.so` for ARM:
 
@@ -91,6 +91,11 @@ This compiler also downloads and compile KLUSolve since it is not provided for A
 ### BUG
 
 I currently get a Stack-Overflow error when importing the `libopendssdirect.so` using `ctypes` in Python (2/3).
+
+Reasons may be:
+
+- [x] Try different `fpc` compiler (v 3.0.0 instead of v 3.0.2)
+- [ ] Try different `gcc` compiler (v 5.* instead of 4.5)
 
 ## Cross-Compile on Ubuntu Linux for Raspberry Pi
 

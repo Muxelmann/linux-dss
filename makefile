@@ -58,6 +58,7 @@ arm: ${TMP} ${LIB} klusolve update_dss
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Executive \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/Parser \
 	-Fi${OPENDSS_DIR}/Source/LazDSS/units/arm-linux \
+	-Fl/usr/lib/gcc/arm-linux-gnueabihf/4.9/ \
 	-Fl${KLUSOLVE_LIB} \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Shared \
 	-Fu${OPENDSS_DIR}/Source/LazDSS/Common \
@@ -115,6 +116,9 @@ setup_RPi:
 	sudo apt-get install build-essential subversion
 	sudo ln -sfv /usr/lib/arm-linux-gnueabihf/libstdc++.so.6 /usr/lib/arm-linux-gnueabihf/libstdc++.so
 	sudo ln -sfv /lib/arm-linux-gnueabihf/libgcc_s.so.1 /lib/arm-linux-gnueabihf/libgcc_s.so
-	wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.2/arm-linux/fpc-3.0.2.arm-linux-eabihf-raspberry.tar
-	tar -xvf fpc-3.0.2.arm-linux-eabihf-raspberry.tar
-	sudo ./fpc-3.0.2.arm-linux-eabihf-raspberry/install.sh
+	# wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.2/arm-linux/fpc-3.0.2.arm-linux-eabihf-raspberry.tar
+	# tar -xvf fpc-3.0.2.arm-linux-eabihf-raspberry.tar
+	# cd fpc-3.0.2.arm-linux && sudo ./install.sh
+	wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.0/arm-linux/fpc-3.0.0.arm-linux-raspberry1wq.tar
+	tar -xvf fpc-3.0.0.arm-linux-raspberry1wq.tar
+	cd fpc-3.0.0.arm-linux && sudo ./install.sh
