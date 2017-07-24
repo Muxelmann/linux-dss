@@ -1,14 +1,13 @@
-OPENDSS_DIR		?= electricdss
+OPENDSS_DIR ?= electricdss
 
-CC		= /usr/bin/fpc
+CC		  = /usr/bin/fpc
 MACROS	= -MDelphi -Scghi -Ct -O2  -k-lc -k-lm -k-lgcc_s -k-lstdc++ -l -vewnhibq
 CFLAGS	= -dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL -dCPU64
-# OUT		= libopendssdirect.so
-TMP		= ./tmp
-LIB		= ./lib
+TMP		  = ./tmp
+LIB		  = ./lib
 
-KLUSOLVE = KLUSolve
-KLUSOLVE_LIB = ${KLUSOLVE}/Lib
+KLUSOLVE      = KLUSolve
+KLUSOLVE_LIB  = ${KLUSOLVE}/Lib
 KLUSOLVE_TEST = ${KLUSOLVE}/Test
 
 INPUT_DIRS = \
@@ -40,7 +39,9 @@ USE_DIRS = \
 -Fu${OPENDSS_DIR}/Source/LazDSS/Parser \
 -Fu${OPENDSS_DIR}/Source/LazDSS/DirectDLL \
 
-all: ${TMP} ${LIB} klusolve update_dss
+# Build for x86_64 on Linux
+
+all: ${TMP} ${LIB} update_klusolve update_dss
 	$(CC) \
 	-Px86_64 -Cg $(MACROS) \
 	${INPUT_DIRS} ${LIB_DIRS} ${USE_DIRS} -FU${TMP} -FE${LIB} \
@@ -48,7 +49,14 @@ all: ${TMP} ${LIB} klusolve update_dss
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
-arm: ${TMP} ${LIB} klusolve update_dss
+# Bild for x86_64 on Linux and delete unnecessary files afterwards
+
+light: all
+	rm -fr ${TMP}
+
+# Build for 64bit ARM
+
+arm: ${TMP} ${LIB} update_klusolve update_dss
 	$(CC) \
 	-Parm  $(MACROS) \
 	${INPUT_DIRS} ${LIB_DIRS} ${USE_DIRS} -Fu${TMP} -FE${LIB} \
@@ -57,25 +65,28 @@ arm: ${TMP} ${LIB} klusolve update_dss
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
-klusolve:
-	mkdir -p ${KLUSOLVE}
-	svn checkout https://svn.code.sf.net/p/klusolve/code/ ${KLUSOLVE}
-	mkdir -p ${KLUSOLVE_LIB}
-	mkdir -p ${KLUSOLVE_TEST}
-	make -C ${KLUSOLVE} all
+# Bild for x86_64 on Linux and delete unnecessary files afterwards
 
-light: update_dss all
+light_arm: arm
 	rm -fr ${TMP}
 
-${TMP}:
-	mkdir -p ${TMP}
-
-${LIB}:
-	mkdir -p ${LIB}
+# Clean
 
 clean:
 	rm -rf ${TMP}
 	rm -rf ${LIB}
+
+# SVN code management
+
+update_klusolve: ${KLUSOLVE}
+	svn update ${KLUSOLVE}
+	mkdir -p ${KLUSOLVE_LIB}
+	mkdir -p ${KLUSOLVE_TEST}
+	make -C ${KLUSOLVE} all
+
+${KLUSOLVE}:
+	mkdir -p ${KLUSOLVE}
+	svn checkout https://svn.code.sf.net/p/klusolve/code/ ${KLUSOLVE}
 
 update_dss: ${OPENDSS_DIR}
 	svn update ${OPENDSS_DIR}
@@ -83,6 +94,16 @@ update_dss: ${OPENDSS_DIR}
 ${OPENDSS_DIR}:
 	mkdir -p ${OPENDSS_DIR}
 	svn checkout https://svn.code.sf.net/p/electricdss/code/trunk ${OPENDSS_DIR}
+
+# Directory management
+
+${TMP}:
+	mkdir -p ${TMP}
+
+${LIB}:
+	mkdir -p ${LIB}
+
+# Setup functions
 
 setup_Ubuntu:
 	sudo apt update
@@ -97,9 +118,11 @@ setup_RPi:
 	sudo apt-get install build-essential subversion
 	sudo ln -sfv /usr/lib/arm-linux-gnueabihf/libstdc++.so.6 /usr/lib/arm-linux-gnueabihf/libstdc++.so
 	sudo ln -sfv /lib/arm-linux-gnueabihf/libgcc_s.so.1 /lib/arm-linux-gnueabihf/libgcc_s.so
+	# Install FPC 3.0.2
 	# wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.2/arm-linux/fpc-3.0.2.arm-linux-eabihf-raspberry.tar
 	# tar -xvf fpc-3.0.2.arm-linux-eabihf-raspberry.tar
 	# cd fpc-3.0.2.arm-linux && sudo ./install.sh
+	# Install FPC 3.0.0
 	wget ftp://ftp.hu.freepascal.org/pub/fpc/dist/3.0.0/arm-linux/fpc-3.0.0.arm-linux-raspberry1wq.tar
 	tar -xvf fpc-3.0.0.arm-linux-raspberry1wq.tar
 	cd fpc-3.0.0.arm-linux && sudo ./install.sh
