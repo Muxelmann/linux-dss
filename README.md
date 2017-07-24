@@ -30,9 +30,9 @@ make setup_Ubuntu
 Start by installing all prerequisites, including the standard compiler and lazarus (with Free Pascal). Also two additional symbolic links need to be added for the compilation to function correctly.
 
 ```
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install build-essential lazarus subversion
+sudo apt update
+sudo apt upgrade
+sudo apt install build-essential lazarus subversion
 sudo ln -sfv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so
 sudo ln -sfv /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so
 ```

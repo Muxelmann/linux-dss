@@ -3,7 +3,7 @@ OPENDSS_DIR		?= electricdss
 CC		= /usr/bin/fpc
 MACROS	= -MDelphi -Scghi -Ct -O2  -k-lc -k-lm -k-lgcc_s -k-lstdc++ -l -vewnhibq
 CFLAGS	= -dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL -dCPU64
-OUT		= libopendssdirect.so
+# OUT		= libopendssdirect.so
 TMP		= ./tmp
 LIB		= ./lib
 
@@ -11,68 +11,49 @@ KLUSOLVE = KLUSolve
 KLUSOLVE_LIB = ${KLUSOLVE}/Lib
 KLUSOLVE_TEST = ${KLUSOLVE}/Test
 
+INPUT_DIRS = \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Shared \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Common \
+-Fi${OPENDSS_DIR}/Source/LazDSS/PDElements \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Controls \
+-Fi${OPENDSS_DIR}/Source/LazDSS/General \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Plot \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Meters \
+-Fi${OPENDSS_DIR}/Source/LazDSS/PCElements \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Executive \
+-Fi${OPENDSS_DIR}/Source/LazDSS/Parser \
+-Fi${OPENDSS_DIR}/Source/LazDSS/units/x86_64-linux
+
+# LIB_DIRS = -Fl${OPENDSS_DIR}/Source/LazDSS/lib
+LIB_DIRS = -Fl${KLUSOLVE_LIB}
+
+USE_DIRS = \
+-Fu${OPENDSS_DIR}/Source/LazDSS/Shared \
+-Fu${OPENDSS_DIR}/Source/LazDSS/Common \
+-Fu${OPENDSS_DIR}/Source/LazDSS/PDElements \
+-Fu${OPENDSS_DIR}/Source/LazDSS/Controls \
+-Fu${OPENDSS_DIR}/Source/LazDSS/General \
+-Fu${OPENDSS_DIR}/Source/LazDSS/Meters \
+-Fu${OPENDSS_DIR}/Source/LazDSS/PCElements \
+-Fu${OPENDSS_DIR}/Source/LazDSS/Executive \
+-Fu${OPENDSS_DIR}/Source/LazDSS/Parser \
+-Fu${OPENDSS_DIR}/Source/LazDSS/DirectDLL \
+
 all: ${TMP} ${LIB} klusolve update_dss
 	$(CC) \
 	-Px86_64 -Cg $(MACROS) \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Shared \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Common \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/PDElements \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Controls \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/General \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Plot \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Meters \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/PCElements \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Executive \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Parser \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/units/x86_64-linux \
-	-Fl${KLUSOLVE_LIB} \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Shared \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Common \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/PDElements \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Controls \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/General \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Meters \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/PCElements \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Executive \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Parser \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/DirectDLL/ \
-	-FU${TMP} \
-	-FE${LIB} \
-	-o${OUT} \
+	${INPUT_DIRS} ${LIB_DIRS} ${USE_DIRS} -FU${TMP} -FE${LIB} \
+	-olibopendssdirect.x86_64.so \
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
 arm: ${TMP} ${LIB} klusolve update_dss
 	$(CC) \
 	-Parm  $(MACROS) \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Forms \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Shared \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Common \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/PDElements \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Controls \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/General \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Plot \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Meters \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/PCElements \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Executive \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/Parser \
-	-Fi${OPENDSS_DIR}/Source/LazDSS/units/arm-linux \
+	${INPUT_DIRS} ${LIB_DIRS} ${USE_DIRS} -Fu${TMP} -FE${LIB} \
 	-Fl/usr/lib/gcc/arm-linux-gnueabihf/4.9/ \
-	-Fl${KLUSOLVE_LIB} \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Shared \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Common \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/PDElements \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Controls \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/General \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Meters \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/PCElements \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Executive \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/Parser \
-	-Fu${OPENDSS_DIR}/Source/LazDSS/DirectDLL/ \
-	-Fu${TMP} \
-	-FE${LIB} \
-	-o${OUT} \
+	-olibopendssdirect.arm.so \
 	${CFLAGS} \
 	${OPENDSS_DIR}/Source/LazDSS/DirectDLL/OpenDSSDirect.lpr
 
@@ -104,9 +85,9 @@ ${OPENDSS_DIR}:
 	svn checkout https://svn.code.sf.net/p/electricdss/code/trunk ${OPENDSS_DIR}
 
 setup_Ubuntu:
-	sudo apt-get update
-	sudo apt-get upgrade
-	sudo apt-get install build-essential lazarus subversion
+	sudo apt update
+	sudo apt upgrade
+	sudo apt install build-essential lazarus subversion
 	sudo ln -sfv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/lib/x86_64-linux-gnu/libstdc++.so
 	sudo ln -sfv /lib/x86_64-linux-gnu/libgcc_s.so.1 /lib/x86_64-linux-gnu/libgcc_s.so
 
